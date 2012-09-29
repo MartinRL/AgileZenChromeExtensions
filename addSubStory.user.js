@@ -5,6 +5,24 @@
 // @include        https://agilezen.com/*
 // @include        http://agilezen.com/*
 // @description    Adds sub-story according to the requirements of Telenor MVNO
-// @require        http://code.jquery.com/jquery-latest.js
 // ==/UserScript==
 
+// a function that loads jQuery and calls a callback function when jQuery has finished loading
+function addJQuery(callback) {
+    var script = document.createElement("script");
+    script.setAttribute("src", "//code.jquery.com/jquery-latest.min.js");
+    script.addEventListener('load', function () {
+        var script = document.createElement("script");
+        script.textContent = "(" + callback.toString() + ")();";
+        document.body.appendChild(script);
+    }, false);
+    document.body.appendChild(script);
+}
+
+// load jQuery and execute the main function
+addJQuery(main);
+
+// the guts of this userscript
+function main() {
+    alert("There are " + $('a').length + " links on this page.");
+}
