@@ -24,5 +24,6 @@ addJQuery(main);
 
 // the guts of this userscript
 function main() {
-    alert("There are " + $('a').length + " links on this page.");
+//    alert($("#story-buttons").text());
+    $("#story-buttons").append("<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>");
 }
