@@ -8,7 +8,7 @@
 // ==/UserScript==
 
 // a function that loads jQuery and calls a callback function when jQuery has finished loading
-function addJQuery(callback) {
+function add_jquery(callback) {
     var script = document.createElement("script");
     script.setAttribute("src", "//code.jquery.com/jquery-latest.min.js");
     script.addEventListener('load', function () {
@@ -20,10 +20,22 @@ function addJQuery(callback) {
 }
 
 // load jQuery and execute the main function
-addJQuery(main);
+add_jquery(main);
 
-// the guts of this userscript
 function main() {
 //    alert($("#story-buttons").text());
-    $("#story-buttons").append("<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>");
+    //    create_add_sub_button();
+    $("#story-buttons").append("<button type='button' id='story-toolbar-sub' onclick='create_sub_story();' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>");
+
+    $("#story-toolbar-sub").click(function create_sub_story() {
+        alert("alerted!");
+    });
+}
+
+function create_add_sub_button() {
+    $("#story-buttons").append("<button type='button' id='story-toolbar-sub' onclick='create_sub_story();' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>");
+}
+
+function create_sub_story() {
+    alert("alerted!");
 }
