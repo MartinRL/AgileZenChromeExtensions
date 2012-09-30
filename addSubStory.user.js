@@ -23,19 +23,13 @@ function add_jquery(callback) {
 add_jquery(main);
 
 function main() {
-//    alert($("#story-buttons").text());
-    //    create_add_sub_button();
-    $("#story-buttons").append("<button type='button' id='story-toolbar-sub' onclick='create_sub_story();' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>");
+    var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
+    
+    $("#story-buttons").append(addSubButtonHtml);
 
-    $("#story-toolbar-sub").click(function create_sub_story() {
+    var createSubStory = function () {
         alert("alerted!");
-    });
-}
+    };
 
-function create_add_sub_button() {
-    $("#story-buttons").append("<button type='button' id='story-toolbar-sub' onclick='create_sub_story();' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>");
-}
-
-function create_sub_story() {
-    alert("alerted!");
+    $("#story-toolbar-sub").click(createSubStory);
 }
