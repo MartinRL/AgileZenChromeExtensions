@@ -8,7 +8,7 @@
 // ==/UserScript==
 
 // a function that loads jQuery and calls a callback function when jQuery has finished loading
-function add_jquery(callback) {
+function addJQuery(callback) {
     var script = document.createElement("script");
     script.setAttribute("src", "//code.jquery.com/jquery-latest.min.js");
     script.addEventListener('load', function () {
@@ -20,15 +20,24 @@ function add_jquery(callback) {
 }
 
 // load jQuery and execute the main function
-add_jquery(main);
+addJQuery(main);
 
 function main() {
+//    alert($.support.cors);
+
     var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
     
     $("#story-buttons").append(addSubButtonHtml);
 
     var createSubStory = function () {
-        alert("alerted!");
+        $.post("https://agilezen.com/api/v1/projects/41632/stories?apikey=f4c92d749eb546c29fc964a7e84c1bfd", { text: "test" }, function (response) { alert(response); });
+//        var xhr = new XMLHttpRequest();
+//        xhr.open('POST', 'https://agilezen.com/api/v1/projects/41632/stories?apikey=f4c92d749eb546c29fc964a7e84c1bfd', true);
+//        xhr.
+//        xhr.onreadystatechange = function () {
+//            alert(this.responseText);
+//        };
+//        xhr.send();
     };
 
     $("#story-toolbar-sub").click(createSubStory);
