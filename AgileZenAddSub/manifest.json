@@ -1,0 +1,16 @@
+﻿{
+  "name": "AgileZen Add Sub",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Adds sub-story according to the requirements of Telenor MVNO",
+  "browser_action": {
+    "default_icon": "icon.png"
+  },
+  "permissions": ["https://*/"],
+  "content_scripts": [
+    {
+      "matches": ["http://agilezen.com/project/*"],
+      "js": ["jquery-v1.8.2.min.js", "addSub.js"]
+    }
+  ]
+}
