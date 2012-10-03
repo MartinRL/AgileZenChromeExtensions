@@ -8,10 +8,21 @@ var createSubStory = function() {
         xhr.open('POST', 'https://agilezen.com/api/v1/projects/41632/stories', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader("X-Zen-ApiKey", "f4c92d749eb546c29fc964a7e84c1bfd");
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
+            // Implementeret i <br> - #
             alert(this.responseText);
         };
-        xhr.send(JSON.stringify({ text: "test2" }));
+        var subStoryText = prompt("Venligst, angiv understorynavn.", "Lorem ipsum...");
+        var tag = prompt("Venligst, angiv projekt-tag.", "Lorem ipsum...");
+        var subStory = {
+            text: subStoryText,
+            details: "Laves som en del af # ", /* aktuelt story# */
+            size: "S",
+            /*phase: pending / the step after backlog,*/
+            /*owner: [username of current story],*/
+            tags: [tag]
+        };
+        xhr.send(JSON.stringify(subStory));
     }
 };
 
