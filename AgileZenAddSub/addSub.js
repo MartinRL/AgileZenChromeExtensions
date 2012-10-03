@@ -3,7 +3,6 @@
 $("#story-buttons").append(addSubButtonHtml);
 
 var createSubStory = function() {
-    alert("about to create sub!");
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
         xhr.open('POST', 'https://agilezen.com/api/v1/projects/41632/stories', true);
