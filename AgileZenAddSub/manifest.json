@@ -6,9 +6,7 @@
   "browser_action": {
     "default_icon": "icon.png"
   },
-  "permissions": [
-    "https://agilezen.com/api/v1/*"
-  ],
+  "permissions": ["https://*/"],
   "content_scripts": [
     {
       "matches": ["http://agilezen.com/project/*"],
