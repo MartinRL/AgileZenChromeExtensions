@@ -10,7 +10,7 @@ var createSubStory = function() {
         xhr.setRequestHeader("X-Zen-ApiKey", "f4c92d749eb546c29fc964a7e84c1bfd");
         xhr.onreadystatechange = function () {
             // Implementeret i <br> - #
-            alert(this.responseText);
+            console.log(this.responseText);
         };
         var subStoryText = prompt("Venligst, angiv understorynavn.", "Lorem ipsum...");
         var tag = prompt("Venligst, angiv projekt-tag.", "Lorem ipsum...");
