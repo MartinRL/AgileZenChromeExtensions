@@ -6,10 +6,14 @@ var getProjectNo = function() {
     return "41632";
 };
 
+var getAddStoryUrl = function () {
+    return "https://agilezen.com/api/v1/projects/" + getProjectNo() + "/stories";
+};
+
 var createSubStory = function() {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
-        xhr.open("POST", "https://agilezen.com/api/v1/projects/" + getProjectNo() + "/stories", true);
+        xhr.open("POST", getAddStoryUrl(), true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("X-Zen-ApiKey", "f4c92d749eb546c29fc964a7e84c1bfd");
         xhr.onreadystatechange = function () {
