@@ -3,7 +3,7 @@
 $("#story-buttons").append(addSubButtonHtml);
 
 var getProjectNo = function() {
-    return "41632";
+    return window.location.pathname.split("/")[2];
 };
 
 var getAddStoryUrl = function () {
