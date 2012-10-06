@@ -1,4 +1,5 @@
-﻿var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
+﻿var COMPLETE = 4;
+var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
 var currentStoryDetails = "";
 var currentUrlSplitBySlash = window.location.pathname.split("/");
 
@@ -31,9 +32,11 @@ var getCurrentStory = function () {
     if ("withCredentials" in xhrGet) {
         xhrGet.open("GET", getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details", false);
         xhrGet.setRequestHeader("X-Zen-ApiKey", "f4c92d749eb546c29fc964a7e84c1bfd");
-        xhrGet.onreadystatechange = function() {
-            console.log("getCurrentStory: " + this.responseText);
-            responseText = jQuery.parseJSON(this.responseText);
+        xhrGet.onreadystatechange = function () {
+            if (xhrGet.readyState === COMPLETE) {
+                console.log("getCurrentStory: " + this.responseText);
+                responseText = jQuery.parseJSON(this.responseText);
+            }
         };
         xhrGet.send();
         return responseText;
@@ -47,7 +50,7 @@ var createSubStory = function() {
         xhrPost.setRequestHeader("Content-Type", "application/json");
         xhrPost.setRequestHeader("X-Zen-ApiKey", "f4c92d749eb546c29fc964a7e84c1bfd");
         xhrPost.onreadystatechange = function () {
-            if (xhrPost.readyState === 4) {
+            if (xhrPost.readyState === COMPLETE) {
                 console.log("POST response: " + this.responseText);
                 var subStory = jQuery.parseJSON(this.responseText);
                 var detailsSubStoryHeader = "Implementeret i";
@@ -59,9 +62,6 @@ var createSubStory = function() {
                 xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), true);
                 xhrUpdate.setRequestHeader("Content-Type", "application/json");
                 xhrUpdate.setRequestHeader("X-Zen-ApiKey", "f4c92d749eb546c29fc964a7e84c1bfd");
-                xhrUpdate.onreadystatechange = function () {
-                    console.log("PUT response: " + this.responseText);
-                };
                 console.log("currentStoryDetails to PUT: " + currentStoryDetails);
                 xhrUpdate.send(JSON.stringify({ details: currentStoryDetails }));
 //            location.reload(true);
