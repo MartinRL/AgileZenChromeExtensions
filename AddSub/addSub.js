@@ -1,4 +1,6 @@
-﻿var COMPLETE = 4;
+﻿var API_KEY = "X-Zen-ApiKey";
+var API_TOKEN = "f4c92d749eb546c29fc964a7e84c1bfd";
+var COMPLETE = 4;
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
 var currentStoryDetails = "";
 var currentUrlSplitBySlash = window.location.pathname.split("/");
@@ -27,7 +29,7 @@ var getCurrentStory = function () {
     var xhrGet = new XMLHttpRequest();
     if ("withCredentials" in xhrGet) {
         xhrGet.open("GET", getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details", false);
-        xhrGet.setRequestHeader("X-Zen-ApiKey", "f4c92d749eb546c29fc964a7e84c1bfd");
+        xhrGet.setRequestHeader(API_KEY, API_TOKEN);
         xhrGet.onreadystatechange = function () {
             if (xhrGet.readyState === COMPLETE) {
                 responseText = jQuery.parseJSON(this.responseText);
@@ -43,7 +45,7 @@ var createSubStory = function() {
     if ("withCredentials" in xhrPost) {
         xhrPost.open("POST", getBaseApiUrl(), true);
         xhrPost.setRequestHeader("Content-Type", "application/json");
-        xhrPost.setRequestHeader("X-Zen-ApiKey", "f4c92d749eb546c29fc964a7e84c1bfd");
+        xhrPost.setRequestHeader(API_KEY, API_TOKEN);
         xhrPost.onreadystatechange = function () {
             if (xhrPost.readyState === COMPLETE) {
                 var subStory = jQuery.parseJSON(this.responseText);
@@ -55,7 +57,7 @@ var createSubStory = function() {
                 var xhrUpdate = new XMLHttpRequest();
                 xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), true);
                 xhrUpdate.setRequestHeader("Content-Type", "application/json");
-                xhrUpdate.setRequestHeader("X-Zen-ApiKey", "f4c92d749eb546c29fc964a7e84c1bfd");
+                xhrUpdate.setRequestHeader(API_KEY, API_TOKEN);
                 xhrUpdate.send(JSON.stringify({ details: currentStoryDetails }));
 //            location.reload(true);
             }
