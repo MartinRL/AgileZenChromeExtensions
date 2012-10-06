@@ -7,6 +7,10 @@ var currentUrlSplitBySlash = window.location.pathname.split("/");
 
 $("#story-buttons").append(addSubButtonHtml);
 
+XMLHttpRequest.prototype.withCredentialsIsIn = function() {
+    return "withCredentials" in this;
+};
+
 var setCurrentStoryDetails = function() {
     var currentStory = getCurrentStory();
     currentStoryDetails = currentStory.details;
