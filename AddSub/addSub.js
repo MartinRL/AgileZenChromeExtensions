@@ -50,7 +50,8 @@ var createSubStory = function() {
             if (xhrPost.readyState === 4) {
                 console.log("POST response: " + this.responseText);
                 var subStory = jQuery.parseJSON(this.responseText);
-                if (currentStoryDetails.indexOf("Implementeret i") == -1) {
+                var detailsSubStoryHeader = "Implementeret i";
+                if (currentStoryDetails.indexOf(detailsSubStoryHeader) == -1) {
                     currentStoryDetails = currentStoryDetails.concat("Implementeret i:");
                 }
                 currentStoryDetails = currentStoryDetails.concat("<br /> - #" + subStory.id);
