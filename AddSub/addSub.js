@@ -42,7 +42,7 @@ var getCurrentStory = function () {
 var createSubStory = function() {
     var xhrPost = new XMLHttpRequest();
     if (xhrPost.withCredentialsIsIn()) {
-        xhrPost.open("POST", getBaseApiUrl(), true);
+        xhrPost.open("POST", getBaseApiUrl(), false);
         xhrPost.setRequestHeader("Content-Type", "application/json");
         xhrPost.setRequestHeader(API_KEY, API_TOKEN);
         xhrPost.onreadystatechange = function () {
