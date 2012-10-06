@@ -59,7 +59,7 @@ var createSubStory = function() {
                 xhrUpdate.setRequestHeader("Content-Type", "application/json");
                 xhrUpdate.setRequestHeader(API_KEY, API_TOKEN);
                 xhrUpdate.send(JSON.stringify({ details: currentStoryDetails }));
-//                location.reload(true);
+                location.reload(true);
             }
         };
         var subStoryText = prompt("Venligst, angiv understorynavn.", "Lorem ipsum...");
@@ -68,7 +68,7 @@ var createSubStory = function() {
             text: subStoryText,
             details: "Laves som en del af #" + getCurrentStoryNo(),
             size: "S",
-            /*phase: pending / the step after backlog,*/
+            phase: currentStory.phase.id,
             owner: currentStory.owner.id,
             tags: [tag]
         };
