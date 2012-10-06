@@ -2,19 +2,10 @@
 var API_TOKEN = "f4c92d749eb546c29fc964a7e84c1bfd";
 var COMPLETE = 4;
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
-var currentStoryDetails = "";
+var currentStory;
 var currentUrlSplitBySlash = window.location.pathname.split("/");
 
 $("#story-buttons").append(addSubButtonHtml);
-
-XMLHttpRequest.prototype.withCredentialsIsIn = function() {
-    return "withCredentials" in this;
-};
-
-var setCurrentStoryDetails = function() {
-    var currentStory = getCurrentStory();
-    currentStoryDetails = currentStory.details;
-};
 
 var getCurrentStoryNo = function() {
     return currentUrlSplitBySlash[currentUrlSplitBySlash.length - 1];
@@ -28,10 +19,14 @@ var getBaseApiUrl = function () {
     return "https://agilezen.com/api/v1/projects/" + getProjectNo() + "/stories";
 };
 
+XMLHttpRequest.prototype.withCredentialsIsIn = function () {
+    return "withCredentials" in this;
+};
+
 var getCurrentStory = function () {
     var responseText;
     var xhrGet = new XMLHttpRequest();
-    if ("withCredentials" in xhrGet) {
+    if (xhrGet.withCredentialsIsIn()) {
         xhrGet.open("GET", getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details", false);
         xhrGet.setRequestHeader(API_KEY, API_TOKEN);
         xhrGet.onreadystatechange = function () {
@@ -46,7 +41,7 @@ var getCurrentStory = function () {
 
 var createSubStory = function() {
     var xhrPost = new XMLHttpRequest();
-    if ("withCredentials" in xhrPost) {
+    if (xhrPost.withCredentialsIsIn()) {
         xhrPost.open("POST", getBaseApiUrl(), true);
         xhrPost.setRequestHeader("Content-Type", "application/json");
         xhrPost.setRequestHeader(API_KEY, API_TOKEN);
@@ -54,16 +49,17 @@ var createSubStory = function() {
             if (xhrPost.readyState === COMPLETE) {
                 var subStory = jQuery.parseJSON(this.responseText);
                 var detailsSubStoryHeader = "Implementeret i";
-                if (currentStoryDetails.indexOf(detailsSubStoryHeader) == -1) {
-                    currentStoryDetails = currentStoryDetails.concat("Implementeret i:");
+                var currentStoryDetails = "";
+                if (currentStory.details.indexOf(detailsSubStoryHeader) == -1) {
+                    currentStoryDetails = currentStory.details + "Implementeret i:";
                 }
-                currentStoryDetails = currentStoryDetails.concat("<br /> - #" + subStory.id + " " + subStory.text);
+                currentStoryDetails = currentStory.details + currentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
                 var xhrUpdate = new XMLHttpRequest();
                 xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), true);
                 xhrUpdate.setRequestHeader("Content-Type", "application/json");
                 xhrUpdate.setRequestHeader(API_KEY, API_TOKEN);
                 xhrUpdate.send(JSON.stringify({ details: currentStoryDetails }));
-//            location.reload(true);
+//                location.reload(true);
             }
         };
         var subStoryText = prompt("Venligst, angiv understorynavn.", "Lorem ipsum...");
@@ -73,12 +69,12 @@ var createSubStory = function() {
             details: "Laves som en del af #" + getCurrentStoryNo(),
             size: "S",
             /*phase: pending / the step after backlog,*/
-            /*owner: [username of current story],*/
+            owner: currentStory.owner.id,
             tags: [tag]
         };
         xhrPost.send(JSON.stringify(subStory));
     }
 };
 
-setCurrentStoryDetails();
+currentStory = getCurrentStory();
 $("#story-toolbar-sub").click(createSubStory);
