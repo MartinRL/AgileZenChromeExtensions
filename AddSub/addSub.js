@@ -31,7 +31,7 @@ var getBaseApiUrl = function () {
 var getCurrentStory = function () {
     var responseText;
     var xhrGet = new XMLHttpRequest();
-    if ("withCredentials" in xhrGet) {
+    if (xhrGet.withCredentialsIsIn()) {
         xhrGet.open("GET", getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details", false);
         xhrGet.setRequestHeader(API_KEY, API_TOKEN);
         xhrGet.onreadystatechange = function () {
@@ -46,7 +46,7 @@ var getCurrentStory = function () {
 
 var createSubStory = function() {
     var xhrPost = new XMLHttpRequest();
-    if ("withCredentials" in xhrPost) {
+    if (xhrPost.withCredentialsIsIn()) {
         xhrPost.open("POST", getBaseApiUrl(), true);
         xhrPost.setRequestHeader("Content-Type", "application/json");
         xhrPost.setRequestHeader(API_KEY, API_TOKEN);
