@@ -54,7 +54,7 @@ var createSubStory = function() {
                 if (currentStoryDetails.indexOf(detailsSubStoryHeader) == -1) {
                     currentStoryDetails = currentStoryDetails.concat("Implementeret i:");
                 }
-                currentStoryDetails = currentStoryDetails.concat("<br /> - #" + subStory.id);
+                currentStoryDetails = currentStoryDetails.concat("<br /> - #" + subStory.id + " " + subStory.text);
                 var xhrUpdate = new XMLHttpRequest();
                 xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), true);
                 xhrUpdate.setRequestHeader("Content-Type", "application/json");
