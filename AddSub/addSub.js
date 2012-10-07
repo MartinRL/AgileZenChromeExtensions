@@ -43,7 +43,9 @@ var createSubStory = function() {
     var xhrPost = new XMLHttpRequest();
     if (xhrPost.withCredentialsIsIn()) {
         xhrPost.open("POST", getBaseApiUrl(), false);
-        xhrPost.setRequestHeader("Content-Type", "application/json");
+        var CONTENT_TYPE = "Content-Type";
+        var APPLICATION_JSON = "application/json";
+        xhrPost.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
         xhrPost.setRequestHeader(API_KEY, API_TOKEN);
         xhrPost.onreadystatechange = function () {
             if (xhrPost.readyState === COMPLETE) {
@@ -56,7 +58,7 @@ var createSubStory = function() {
                 currentStoryDetails = currentStory.details + currentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
                 var xhrUpdate = new XMLHttpRequest();
                 xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), true);
-                xhrUpdate.setRequestHeader("Content-Type", "application/json");
+                xhrUpdate.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
                 xhrUpdate.setRequestHeader(API_KEY, API_TOKEN);
                 xhrUpdate.send(JSON.stringify({ details: currentStoryDetails }));
                 location.reload(true);
