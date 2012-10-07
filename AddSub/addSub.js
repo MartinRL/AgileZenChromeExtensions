@@ -1,6 +1,8 @@
 ﻿var API_KEY = "X-Zen-ApiKey";
 var API_TOKEN = "f4c92d749eb546c29fc964a7e84c1bfd";
 var COMPLETE = 4;
+var CALL_ASYNC = true;
+var CALL_SYNC = false;
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
 var currentStory;
 var currentUrlSplitBySlash = window.location.pathname.split("/");
@@ -27,7 +29,7 @@ var getCurrentStory = function () {
     var responseText;
     var xhrGet = new XMLHttpRequest();
     if (xhrGet.withCredentialsIsIn()) {
-        xhrGet.open("GET", getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details", false);
+        xhrGet.open("GET", getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details", CALL_SYNC);
         xhrGet.setRequestHeader(API_KEY, API_TOKEN);
         xhrGet.onreadystatechange = function () {
             if (xhrGet.readyState === COMPLETE) {
@@ -42,7 +44,7 @@ var getCurrentStory = function () {
 var createSubStory = function() {
     var xhrPost = new XMLHttpRequest();
     if (xhrPost.withCredentialsIsIn()) {
-        xhrPost.open("POST", getBaseApiUrl(), false);
+        xhrPost.open("POST", getBaseApiUrl(), CALL_SYNC);
         var CONTENT_TYPE = "Content-Type";
         var APPLICATION_JSON = "application/json";
         xhrPost.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
@@ -57,7 +59,7 @@ var createSubStory = function() {
                 }
                 currentStoryDetails = currentStory.details + currentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
                 var xhrUpdate = new XMLHttpRequest();
-                xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), true);
+                xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), CALL_ASYNC);
                 xhrUpdate.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
                 xhrUpdate.setRequestHeader(API_KEY, API_TOKEN);
                 xhrUpdate.send(JSON.stringify({ details: currentStoryDetails }));
