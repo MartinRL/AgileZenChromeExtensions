@@ -1,5 +1,7 @@
 ﻿var API_KEY = "X-Zen-ApiKey";
-var API_TOKEN = "f4c92d749eb546c29fc964a7e84c1bfd";
+//var API_TOKEN = "f4c92d749eb546c29fc964a7e84c1bfd";
+var API_TOKEN = localStorage["api_key"];
+console.log("api_key: " + API_TOKEN);
 var COMPLETE = 4;
 var CALL_SYNC = false;
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
