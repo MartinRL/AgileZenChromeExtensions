@@ -8,11 +8,11 @@ var currentUrlSplitBySlash = window.location.pathname.split("/");
 
 $("#story-buttons").append(addSubButtonHtml);
 
-var setApiToken = function() {
+var setApiToken = function(continuation) {
     chrome.storage.sync.get("api_key",
         function(val) {
             apiToken = val.api_key;
-            setCurrentStory();
+            continuation();
         });
 };
 
@@ -87,5 +87,5 @@ var createSubStory = function() {
     }
 };
 
-setApiToken();
+setApiToken(setCurrentStory);
 $("#story-toolbar-sub").click(createSubStory);
