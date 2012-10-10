@@ -2,7 +2,7 @@
 var options;
 var COMPLETE = 4;
 var CALL_SYNC = false;
-var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
+var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Create sub-story to this story'><img src='/content/images/icons/add.png'>Sub</button>";
 var currentStory;
 var currentUrlSplitBySlash = window.location.pathname.split("/");
 
