@@ -1,6 +1,10 @@
 ﻿function saveOptions() {
     var apiKey = document.getElementById("api_key").value;
-    chrome.storage.sync.set({"api_key": apiKey});
+    var umbrellaDetailsLabel = document.getElementById("umbrella_details_label").value;
+    chrome.storage.sync.set({
+        "api_key": apiKey,
+        "umbrella_details_label": umbrellaDetailsLabel
+    });
 
     var status = document.getElementById("status");
     status.innerHTML = "options saved";
@@ -10,9 +14,10 @@
 }
 
 function restoreOptions() {
-    chrome.storage.sync.get("api_key",
-        function (apiKey) {
-            document.getElementById("api_key").value = apiKey.api_key;
+    chrome.storage.sync.get(null,
+        function (options) {
+            document.getElementById("api_key").value = options.api_key;
+            document.getElementById("umbrella_details_label").value = options.umbrella_details_label;
         });
 }
 

@@ -1,5 +1,6 @@
 ﻿var API_KEY = "X-Zen-ApiKey";
 var apiToken;
+var umbrellaDetailsLabel;
 var COMPLETE = 4;
 var CALL_SYNC = false;
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
@@ -59,10 +60,10 @@ var createSubStory = function() {
         xhrPost.onreadystatechange = function () {
             if (xhrPost.readyState === COMPLETE) {
                 var subStory = jQuery.parseJSON(this.responseText);
-                var detailsSubStoryHeader = "Implementeret i";
+                var detailsSubStoryHeader = umbrellaDetailsLabel;
                 var currentStoryDetails = "";
                 if (currentStory.details.indexOf(detailsSubStoryHeader) == -1) {
-                    currentStoryDetails = currentStory.details + "Implementeret i:";
+                    currentStoryDetails = currentStory.details + umbrellaDetailsLabel + ":";
                 }
                 currentStoryDetails = currentStory.details + currentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
                 var xhrUpdate = new XMLHttpRequest();
