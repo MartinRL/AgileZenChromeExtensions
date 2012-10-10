@@ -1,5 +1,5 @@
 ﻿var API_KEY = "X-Zen-ApiKey";
-var API_TOKEN = "f4c92d749eb546c29fc964a7e84c1bfd";
+var options;
 var COMPLETE = 4;
 var CALL_SYNC = false;
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
@@ -7,6 +7,14 @@ var currentStory;
 var currentUrlSplitBySlash = window.location.pathname.split("/");
 
 $("#story-buttons").append(addSubButtonHtml);
+
+var setOptions = function(continuation) {
+    chrome.storage.sync.get(null,
+        function(opt) {
+            options = opt;
+            continuation();
+        });
+};
 
 var getCurrentStoryNo = function() {
     return currentUrlSplitBySlash[currentUrlSplitBySlash.length - 1];
@@ -24,19 +32,19 @@ XMLHttpRequest.prototype.withCredentialsIsIn = function () {
     return "withCredentials" in this;
 };
 
-var getCurrentStory = function () {
+var setCurrentStory = function () {
     var responseText;
     var xhrGet = new XMLHttpRequest();
     if (xhrGet.withCredentialsIsIn()) {
         xhrGet.open("GET", getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details", CALL_SYNC);
-        xhrGet.setRequestHeader(API_KEY, API_TOKEN);
+        xhrGet.setRequestHeader(API_KEY, options.api_key);
         xhrGet.onreadystatechange = function () {
             if (xhrGet.readyState === COMPLETE) {
                 responseText = jQuery.parseJSON(this.responseText);
             }
         };
         xhrGet.send();
-        return responseText;
+        currentStory = responseText;
     }
 };
 
@@ -47,20 +55,19 @@ var createSubStory = function() {
         var CONTENT_TYPE = "Content-Type";
         var APPLICATION_JSON = "application/json";
         xhrPost.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
-        xhrPost.setRequestHeader(API_KEY, API_TOKEN);
+        xhrPost.setRequestHeader(API_KEY, options.api_key);
         xhrPost.onreadystatechange = function () {
             if (xhrPost.readyState === COMPLETE) {
                 var subStory = jQuery.parseJSON(this.responseText);
-                var detailsSubStoryHeader = "Implementeret i";
                 var currentStoryDetails = "";
-                if (currentStory.details.indexOf(detailsSubStoryHeader) == -1) {
-                    currentStoryDetails = currentStory.details + "Implementeret i:";
+                if (currentStory.details.indexOf(options.umbrella_details_label) == -1) {
+                    currentStoryDetails = currentStory.details + options.umbrella_details_label + ":";
                 }
                 currentStoryDetails = currentStory.details + currentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
                 var xhrUpdate = new XMLHttpRequest();
                 xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), CALL_SYNC);
                 xhrUpdate.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
-                xhrUpdate.setRequestHeader(API_KEY, API_TOKEN);
+                xhrUpdate.setRequestHeader(API_KEY, options.api_key);
                 xhrUpdate.send(JSON.stringify({ details: currentStoryDetails }));
                 location.reload(true);
             }
@@ -69,7 +76,7 @@ var createSubStory = function() {
         var tag = prompt("Venligst, angiv projekt-tag.", "Lorem ipsum...");
         var subStory = {
             text: subStoryText,
-            details: "Laves som en del af #" + getCurrentStoryNo(),
+            details: options.substory_details_label + " #" + getCurrentStoryNo(),
             size: "S",
             phase: currentStory.phase.id,
             owner: currentStory.owner.id,
@@ -79,5 +86,5 @@ var createSubStory = function() {
     }
 };
 
-currentStory = getCurrentStory();
+setOptions(setCurrentStory);
 $("#story-toolbar-sub").click(createSubStory);
