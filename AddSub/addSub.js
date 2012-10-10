@@ -1,7 +1,5 @@
 ﻿var API_KEY = "X-Zen-ApiKey";
-//var API_TOKEN = "f4c92d749eb546c29fc964a7e84c1bfd";
-var API_TOKEN = localStorage["api_key"];
-console.log("api_key: " + API_TOKEN);
+var apiToken;
 var COMPLETE = 4;
 var CALL_SYNC = false;
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Danne en Small underopgave til denne story'><img src='/content/images/icons/add.png'>Sub</button>";
@@ -9,6 +7,14 @@ var currentStory;
 var currentUrlSplitBySlash = window.location.pathname.split("/");
 
 $("#story-buttons").append(addSubButtonHtml);
+
+var setApiToken = function() {
+    chrome.storage.sync.get("api_key",
+        function(val) {
+            apiToken = val.api_key;
+            setCurrentStory();
+        });
+};
 
 var getCurrentStoryNo = function() {
     return currentUrlSplitBySlash[currentUrlSplitBySlash.length - 1];
@@ -26,19 +32,19 @@ XMLHttpRequest.prototype.withCredentialsIsIn = function () {
     return "withCredentials" in this;
 };
 
-var getCurrentStory = function () {
+var setCurrentStory = function () {
     var responseText;
     var xhrGet = new XMLHttpRequest();
     if (xhrGet.withCredentialsIsIn()) {
         xhrGet.open("GET", getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details", CALL_SYNC);
-        xhrGet.setRequestHeader(API_KEY, API_TOKEN);
+        xhrGet.setRequestHeader(API_KEY, apiToken);
         xhrGet.onreadystatechange = function () {
             if (xhrGet.readyState === COMPLETE) {
                 responseText = jQuery.parseJSON(this.responseText);
             }
         };
         xhrGet.send();
-        return responseText;
+        currentStory = responseText;
     }
 };
 
@@ -49,7 +55,7 @@ var createSubStory = function() {
         var CONTENT_TYPE = "Content-Type";
         var APPLICATION_JSON = "application/json";
         xhrPost.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
-        xhrPost.setRequestHeader(API_KEY, API_TOKEN);
+        xhrPost.setRequestHeader(API_KEY, apiToken);
         xhrPost.onreadystatechange = function () {
             if (xhrPost.readyState === COMPLETE) {
                 var subStory = jQuery.parseJSON(this.responseText);
@@ -62,7 +68,7 @@ var createSubStory = function() {
                 var xhrUpdate = new XMLHttpRequest();
                 xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), CALL_SYNC);
                 xhrUpdate.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
-                xhrUpdate.setRequestHeader(API_KEY, API_TOKEN);
+                xhrUpdate.setRequestHeader(API_KEY, apiToken);
                 xhrUpdate.send(JSON.stringify({ details: currentStoryDetails }));
                 location.reload(true);
             }
@@ -81,5 +87,5 @@ var createSubStory = function() {
     }
 };
 
-currentStory = getCurrentStory();
+setApiToken();
 $("#story-toolbar-sub").click(createSubStory);
