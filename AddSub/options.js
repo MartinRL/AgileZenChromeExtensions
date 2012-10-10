@@ -17,15 +17,14 @@
 
 function restoreOptions() {
     console.log("restoreOptions");
-    var apiKey = localStorage["api_key"];
-    if (!apiKey) {
-        return;
-    }
-    document.getElementById("api_key").value = apiKey;
+    chrome.storage.sync.get("api_key",
+        function (apiKey) {
+            console.log("chrome.storage.sync.get['api_key']: " + JSON.stringify(apiKey));
+            document.getElementById("api_key").value = apiKey.api_key;
+        });
 }
-
-document.addEventListener('DOMContentReady', restoreOptions);
 
 window.onload = function() {
     document.getElementById("save").addEventListener('click', saveOptions);
+    restoreOptions();
 };
