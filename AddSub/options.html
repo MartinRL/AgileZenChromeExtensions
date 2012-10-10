@@ -1,14 +1,18 @@
 ﻿<html>
     <head>
         <title>AgileZen add Sub-story Options</title>
+        <link rel="stylesheet" href="options.css">
         <script type="text/javascript" src="jquery-v1.8.2.min.js"></script>
         <script type="text/javascript" src="options.js"></script>
     </head>
     <body>
-        AgileZen API-key: <input type="text" id="api_key" size="100"><a href="http://dev.agilezen.com/concepts/authentication.html">How to</a><br>
-        Umbrella details label: <input type="text" id="umbrella_details_label" size="100"><br>
-        Sub-story details label: <input type="text" id="substory_details_label" size="100"><br>
-        <button id="save">Save</button><br>
-        <div id="status"></div>
+        <div class="box">
+            <h1>Add Sub Options</h1>
+            <label><span>AgileZen API-key:</span></label><input type="text" id="api_key" class="input_text"><a href="http://dev.agilezen.com/concepts/authentication.html">How to?</a><br>
+            <label><span>Umbrella details label:</span></label><input type="text" id="umbrella_details_label" class="input_text"><br>
+            <label><span>Sub-story details label:</span></label><input type="text" id="substory_details_label" class="input_text"><br>
+            <button id="save" class="button">Save</button><br>
+            <div id="status"></div>
+        </div>
     </body>
 </html>
