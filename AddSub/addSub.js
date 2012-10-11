@@ -77,7 +77,7 @@ var createSubStory = function() {
         var subStory = {
             text: subStoryText,
             details: options.substory_details_label + " #" + getCurrentStoryNo(),
-            size: "S",
+            size: options.substory_size,
             phase: currentStory.phase.id,
             owner: currentStory.owner.id,
             tags: [tag]
