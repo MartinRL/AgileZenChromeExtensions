@@ -1,14 +1,33 @@
 ﻿<html>
     <head>
         <title>AgileZen add Sub-story Options</title>
+        <link rel="stylesheet" href="options.css">
         <script type="text/javascript" src="jquery-v1.8.2.min.js"></script>
         <script type="text/javascript" src="options.js"></script>
     </head>
     <body>
-        AgileZen API-key: <input type="text" id="api_key" size="100"><a href="http://dev.agilezen.com/concepts/authentication.html">How to</a><br>
-        Umbrella details label: <input type="text" id="umbrella_details_label" size="100"><br>
-        Sub-story details label: <input type="text" id="substory_details_label" size="100"><br>
-        <button id="save">Save</button><br>
-        <div id="status"></div>
+        <table>
+            <tr>
+                <td colspan="2"><h2>Add Sub Options</h2></td>
+            </tr>
+            <tr>
+                <td><a href="http://dev.agilezen.com/concepts/authentication.html">AgileZen API-key:</a></td>
+                <td><input type="text" id="api_key" class="input-text"></td>
+            </tr>
+            <tr>
+                <td>Umbrella details label:</td>
+                <td><input type="text" id="umbrella_details_label" class="input-text"></td>
+            </tr>
+            <tr>
+                <td>Sub-story details label:</td>
+                <td><input type="text" id="substory_details_label" class="input-text"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="button-row"><button id="save" class="button">Save</button></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="status-row"><span id="status"></span></td>
+            </tr>
+        </table>
     </body>
 </html>
