@@ -11,6 +11,10 @@ $("#story-buttons").append(addSubButtonHtml);
 var setOptions = function(continuation) {
     chrome.storage.sync.get(null,
         function(opt) {
+            if (opt.api_key === "") {
+                alert("Missing AgileZen API key. Please, add your key on the options page of this extension!");
+                return;
+            }
             options = opt;
             continuation();
         });
