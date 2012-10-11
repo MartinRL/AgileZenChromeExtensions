@@ -16,11 +16,11 @@
 
     var restoreOptions = function() {
         chrome.storage.sync.get(null,
-            function(options) {
+            function (options) {
                 $("#api_key").val(options.api_key);
-                $("#umbrella_details_label").val(options.umbrella_details_label === "" ? "Implementeret i" : options.umbrella_details_label);
-                $("#substory_details_label").val(options.substory_details_label === "" ? "Laves som en del af" : options.substory_details_label);
-                $("#substory_size").val(options.substory_size === "" ? "S" : options.substory_size);
+                $("#umbrella_details_label").val(typeof options.umbrella_details_label === "undefined" ? "Implementeret i" : options.umbrella_details_label);
+                $("#substory_details_label").val(typeof options.substory_details_label === "undefined" ? "Laves som en del af" : options.substory_details_label);
+                $("#substory_size").val(typeof options.substory_size === "undefined" ? "S" : options.substory_size);
             });
     };
 
