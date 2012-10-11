@@ -48,7 +48,11 @@ var setCurrentStory = function () {
     }
 };
 
-var createSubStory = function() {
+var createSubStory = function () {
+    if (options.api_key === "") {
+        alert("Missing AgileZen API key. Please, add your key on the options page of this extension!");
+        return;
+    }
     var xhrPost = new XMLHttpRequest();
     if (xhrPost.withCredentialsIsIn()) {
         xhrPost.open("POST", getBaseApiUrl(), CALL_SYNC);
