@@ -51,7 +51,7 @@ var setCurrentStory = function () {
 };
 
 var createSubStory = function () {
-    if (options.api_key === "" || options.api_key === "undefined") {
+    if (typeof options.api_key === "undefined" || options.api_key === "") {
         alert("Missing AgileZen API key. Please, add your key on the options page of this extension!");
         return;
     }
