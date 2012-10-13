@@ -2,6 +2,7 @@
 var options;
 var COMPLETE = 4;
 var NOT_FOUND = -1;
+var ALL = null;
 var CALL_SYNC = false;
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Create sub-story to this story'><img src='/content/images/icons/add.png'>Sub</button>";
 var currentStory;
@@ -10,7 +11,7 @@ var currentUrlSplitBySlash = window.location.pathname.split("/");
 $("#story-buttons").append(addSubButtonHtml);
 
 var setOptions = function(continuation) {
-    chrome.storage.sync.get(null,
+    chrome.storage.sync.get(ALL,
         function(opt) {
             options = opt;
             continuation();
