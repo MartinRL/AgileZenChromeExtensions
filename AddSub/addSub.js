@@ -5,10 +5,12 @@ var NOT_FOUND = -1;
 var ALL = null;
 var CALL_SYNC = false;
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Create sub-story to this story'><img src='/content/images/icons/add.png'>Sub</button>";
+var extensionInfoAreaHtml = "<div id='add-sub-extension-info-area' class='order-title' style='display: none;'></div>";
 var currentStory;
 var currentUrlSplitBySlash = window.location.pathname.split("/");
 
 $("#story-buttons").append(addSubButtonHtml);
+$("#story-buttons").after(extensionInfoAreaHtml);
 
 var setOptions = function(continuation) {
     chrome.storage.sync.get(ALL,
@@ -50,11 +52,23 @@ var setCurrentStory = function () {
     }
 };
 
-var createSubStory = function () {
+var checkApiKey = function () {
+    setOptions(function () {});
+
     if (typeof options.api_key === "undefined" || options.api_key === "") {
-        alert("Missing AgileZen API key. Please, add your key on the options page of this extension!");
-        return;
+        var optionsUrl = chrome.extension.getURL("options.html");
+        $("#add-sub-extension-info-area").html("AgileZen API key is missing! Add yours on <a href='" + optionsUrl + "' target='_blank'>the options page.</a>");
+        $("#add-sub-extension-info-area").css("display", "");
+
+        return false;
     }
+
+    $("#add-sub-extension-info-area").css("display", "none");
+    return true;
+};
+
+var createSubStory = function () {
+    if (!checkApiKey()) return;
     var xhrPost = new XMLHttpRequest();
     if (xhrPost.withCredentialsIsIn()) {
         xhrPost.open("POST", getBaseApiUrl(), CALL_SYNC);
