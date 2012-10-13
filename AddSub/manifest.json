@@ -1,15 +1,19 @@
 ﻿{
-  "name": "AgileZen Add Sub",
-  "version": "1.2.0",
-  "manifest_version": 2,
-  "description": "Adds a sub-story with bi-directional links between umbrella and sub-story",
-  "options_page": "options.html",
-  "browser_action": {
-    "default_icon": "icon.png"
-  },
-  "permissions": ["https://agilezen.com/api/v1/projects/*", "storage"],
-  "content_scripts": [{
-      "matches": ["*://agilezen.com/project/*"],
-      "js": ["jquery-v1.8.2.min.js", "addSub.js"]
-    }]
+   "name": "AgileZen Add Sub",
+   "version": "1.2.0",
+   "manifest_version": 2,
+   "description": "Adds a sub-story with bi-directional links between umbrella and sub-story",
+   "options_page": "options.html",
+   "browser_action": {
+     "default_icon": "icon.png"
+   },
+   "permissions": [
+       "https://agilezen.com/api/v1/projects/*",
+       "storage",
+       "tabs"
+   ],
+   "content_scripts": [{
+       "matches": ["*://agilezen.com/project/*"],
+       "js": ["jquery-v1.8.2.min.js", "addSub.js"]
+   }]
 }
