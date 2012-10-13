@@ -63,16 +63,16 @@ var createSubStory = function () {
         xhrPost.onreadystatechange = function () {
             if (xhrPost.readyState === COMPLETE) {
                 var subStory = jQuery.parseJSON(this.responseText);
-                var currentStoryDetails = "";
+                var subStoryInfoOfCurrentStoryDetails = "";
                 if (currentStory.details.indexOf(options.umbrella_details_label) == -1) {
-                    currentStoryDetails = currentStory.details + options.umbrella_details_label + ":";
+                    subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br />" + options.umbrella_details_label + ":";
                 }
-                currentStoryDetails = currentStory.details + currentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
+                subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
                 var xhrUpdate = new XMLHttpRequest();
                 xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), CALL_SYNC);
                 xhrUpdate.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
                 xhrUpdate.setRequestHeader(API_KEY, options.api_key);
-                xhrUpdate.send(JSON.stringify({ details: currentStoryDetails }));
+                xhrUpdate.send(JSON.stringify({ details: currentStory.details + subStoryInfoOfCurrentStoryDetails }));
                 location.reload(true);
             }
         };
