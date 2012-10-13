@@ -1,6 +1,7 @@
 ﻿var API_KEY = "X-Zen-ApiKey";
 var options;
 var COMPLETE = 4;
+var NOT_FOUND = -1;
 var CALL_SYNC = false;
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Create sub-story to this story'><img src='/content/images/icons/add.png'>Sub</button>";
 var currentStory;
@@ -64,7 +65,7 @@ var createSubStory = function () {
             if (xhrPost.readyState === COMPLETE) {
                 var subStory = jQuery.parseJSON(this.responseText);
                 var subStoryInfoOfCurrentStoryDetails = "";
-                if (currentStory.details.indexOf(options.umbrella_details_label) == -1) {
+                if (currentStory.details.indexOf(options.umbrella_details_label) == NOT_FOUND) {
                     subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br />" + options.umbrella_details_label + ":";
                 }
                 subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
