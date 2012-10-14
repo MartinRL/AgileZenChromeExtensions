@@ -52,7 +52,6 @@ var setCurrentStory = function () {
 };
 
 var checkApiKey = function () {
-    setOptions(function () {});
     var addSubExtensionInfoArea = $("#" + ADD_SUB_EXTENSION_INFO_AREA_ID);
     if (typeof options.api_key === "undefined" || options.api_key === "") {
         var optionsUrl = chrome.extension.getURL("options.html");
@@ -104,5 +103,12 @@ var createSubStory = function () {
 };
 
 setAjaxDefaults();
+
 setOptions(setCurrentStory);
+
 $("#story-toolbar-sub").click(createSubStory);
+
+chrome.storage.onChanged.addListener(
+    function (changes, namespace) {
+        setOptions(function() {});
+    });
