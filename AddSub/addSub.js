@@ -38,19 +38,15 @@ XMLHttpRequest.prototype.withCredentialsIsIn = function () {
 };
 
 var setCurrentStory = function () {
-    var responseText;
-    var xhrGet = new XMLHttpRequest();
-    if (xhrGet.withCredentialsIsIn()) {
-        xhrGet.open("GET", getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details", CALL_SYNC);
-        xhrGet.setRequestHeader(API_KEY, options.api_key);
-        xhrGet.onreadystatechange = function () {
-            if (xhrGet.readyState === COMPLETE) {
-                responseText = jQuery.parseJSON(this.responseText);
-            }
-        };
-        xhrGet.send();
-        currentStory = responseText;
-    }
+    $.ajax({
+        type: "GET",
+        url: getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details",
+        beforeSend: function (xhr) { xhr.setRequestHeader(API_KEY, options.api_key); },
+        xhrFields: { withCredentials: true }
+    }).then(function (response) {
+        currentStory = response;
+        console.log(currentStory);
+    });
 };
 
 var checkApiKey = function () {
