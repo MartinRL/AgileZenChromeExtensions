@@ -1,9 +1,7 @@
 ﻿var API_KEY = "X-Zen-ApiKey";
 var options;
-var COMPLETE = 4;
 var NOT_FOUND = -1;
 var ALL = null;
-var CALL_SYNC = false;
 var ADD_SUB_EXTENSION_INFO_AREA_ID = "add-sub-extension-info-area";
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Create sub-story to this story'><img src='/content/images/icons/add.png'>Sub</button>";
 var extensionInfoAreaHtml = "<div id='" + ADD_SUB_EXTENSION_INFO_AREA_ID + "' class='order-title' style='display: none;'></div>";
