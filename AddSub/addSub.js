@@ -50,7 +50,6 @@ var setCurrentStory = function () {
         url: getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details",
     }).then(function (response) {
         currentStory = response;
-        console.log(currentStory);
     });
 };
 
@@ -71,41 +70,38 @@ var checkApiKey = function () {
 
 var createSubStory = function () {
     if (!checkApiKey()) return;
-    var xhrPost = new XMLHttpRequest();
-    if (xhrPost.withCredentialsIsIn()) {
-        xhrPost.open("POST", getBaseApiUrl(), CALL_SYNC);
-        var CONTENT_TYPE = "Content-Type";
-        var APPLICATION_JSON = "application/json";
-        xhrPost.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
-        xhrPost.setRequestHeader(API_KEY, options.api_key);
-        xhrPost.onreadystatechange = function () {
-            if (xhrPost.readyState === COMPLETE) {
-                var subStory = jQuery.parseJSON(this.responseText);
-                var subStoryInfoOfCurrentStoryDetails = "";
-                if (currentStory.details.indexOf(options.umbrella_details_label) == NOT_FOUND) {
-                    subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br />" + options.umbrella_details_label + ":";
-                }
-                subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
-                var xhrUpdate = new XMLHttpRequest();
-                xhrUpdate.open("PUT", getBaseApiUrl() + "/" + getCurrentStoryNo(), CALL_SYNC);
-                xhrUpdate.setRequestHeader(CONTENT_TYPE, APPLICATION_JSON);
-                xhrUpdate.setRequestHeader(API_KEY, options.api_key);
-                xhrUpdate.send(JSON.stringify({ details: currentStory.details + subStoryInfoOfCurrentStoryDetails }));
-                location.reload(true);
-            }
-        };
-        var subStoryText = prompt("Venligst, angiv understorynavn.", "Lorem ipsum...");
-        var tag = prompt("Venligst, angiv projekt-tag.", "Lorem ipsum...");
-        var subStory = {
-            text: subStoryText,
-            details: options.substory_details_label + " #" + getCurrentStoryNo(),
-            size: options.substory_size,
-            phase: currentStory.phase.id,
-            owner: currentStory.owner.id,
-            tags: [tag]
-        };
-        xhrPost.send(JSON.stringify(subStory));
-    }
+
+    var subStoryText = prompt("Please, state a sub-story name.", "Lorem ipsum");
+    var tag = prompt("Please, state a project tag.", "");
+    var subStory = {
+        text: subStoryText,
+        details: options.substory_details_label + " #" + getCurrentStoryNo(),
+        size: options.substory_size,
+        phase: currentStory.phase.id,
+        owner: currentStory.owner.id,
+        tags: [tag]
+    };
+
+    $.ajax({
+        type: "POST",
+        url: getBaseApiUrl(),
+        dataType: "json",
+        data: JSON.stringify(subStory)
+    }).then(function (subStory) {
+        var subStoryInfoOfCurrentStoryDetails = "";
+        if (currentStory.details.indexOf(options.umbrella_details_label) == NOT_FOUND) {
+            subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br />" + options.umbrella_details_label + ":";
+        }
+        subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
+        $.ajax({
+            type: "PUT",
+            url: getBaseApiUrl() + "/" + getCurrentStoryNo(),
+            dataType: "json",
+            data: JSON.stringify({ details: currentStory.details + subStoryInfoOfCurrentStoryDetails })
+        }).then(function() {
+            location.reload(true);
+        });
+    });
 };
 
 setAjaxDefaults();
