@@ -13,6 +13,13 @@ var currentUrlSplitBySlash = window.location.pathname.split("/");
 $("#story-buttons").append(addSubButtonHtml);
 $("#story-buttons").after(extensionInfoAreaHtml);
 
+var setAjaxDefaults = function () {
+    jQuery.ajaxSetup({
+        xhrFields: { withCredentials: true },
+        beforeSend: function (xhr) { xhr.setRequestHeader(API_KEY, options.api_key); },
+    });
+};
+
 var setOptions = function(continuation) {
     chrome.storage.sync.get(ALL,
         function(opt) {
@@ -41,8 +48,6 @@ var setCurrentStory = function () {
     $.ajax({
         type: "GET",
         url: getBaseApiUrl() + "/" + getCurrentStoryNo() + "?with=details",
-        beforeSend: function (xhr) { xhr.setRequestHeader(API_KEY, options.api_key); },
-        xhrFields: { withCredentials: true }
     }).then(function (response) {
         currentStory = response;
         console.log(currentStory);
@@ -103,5 +108,6 @@ var createSubStory = function () {
     }
 };
 
+setAjaxDefaults();
 setOptions(setCurrentStory);
 $("#story-toolbar-sub").click(createSubStory);
