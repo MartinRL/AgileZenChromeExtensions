@@ -1,6 +1,6 @@
 ﻿{
    "name": "AgileZen Add Sub",
-   "version": "1.2.0",
+   "version": "1.2.1",
    "manifest_version": 2,
    "description": "Adds a sub-story with bi-directional links between umbrella and sub-story",
    "options_page": "options.html",
@@ -9,8 +9,7 @@
    },
    "permissions": [
        "https://agilezen.com/api/v1/projects/*",
-       "storage",
-       "tabs"
+       "storage"
    ],
    "content_scripts": [{
        "matches": ["*://agilezen.com/project/*"],
