@@ -69,15 +69,16 @@ var checkApiKey = function () {
 var createSubStory = function () {
     if (!checkApiKey()) return;
 
-    var subStoryText = prompt("Please, state a sub-story name.", "Lorem ipsum");
-    var tag = prompt("Please, state a project tag.", "");
+    var subStoryText = prompt("Please, state a sub-story name!", "Lorem ipsum");
+    var tags = prompt("Please, state a the story tags (comma-separated).", "").split(",");
+    $.each(tags, function (index, tag) { tag.trim(); });
     var subStory = {
         text: subStoryText,
         details: options.substory_details_label + " #" + getCurrentStoryNo(),
         size: options.substory_size,
         phase: currentStory.phase.id,
         owner: currentStory.owner.id,
-        tags: [tag]
+        tags: tags
     };
 
     $.ajax({
