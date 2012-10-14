@@ -1,5 +1,6 @@
 ﻿var API_KEY = "X-Zen-ApiKey";
 var options;
+var FOUND = 0;
 var NOT_FOUND = -1;
 var ALL = null;
 var ADD_SUB_EXTENSION_INFO_AREA_ID = "add-sub-extension-info-area";
@@ -76,9 +77,13 @@ var createSubStory = function () {
         details: options.substory_details_label + " #" + getCurrentStoryNo(),
         size: options.substory_size,
         phase: currentStory.phase.id,
-        owner: currentStory.owner.id,
-        tags: tags
+        owner: currentStory.owner.id
     };
+    console.log(tags.indexOf(""));
+    if (tags.indexOf("") !== FOUND) {
+        subStory.tags = tags;
+    }
+    console.log(subStory);
 
     $.ajax({
         type: "POST",
