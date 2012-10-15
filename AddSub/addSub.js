@@ -49,10 +49,6 @@ var getBaseApiUrl = function () {
     return "https://agilezen.com/api/v1/projects/" + getProjectNo() + "/stories";
 };
 
-XMLHttpRequest.prototype.withCredentialsIsIn = function () {
-    return "withCredentials" in this;
-};
-
 var setCurrentStory = function () {
     $.ajax({
         type: "GET",
