@@ -7,7 +7,8 @@ var findResults = {
 var ALL = null;
 var ids = {
     addSubExtensionInfoArea: "add-sub-extension-info-area",
-    storyToolbarSub: "story-toolbar-sub"
+    storyToolbarSub: "story-toolbar-sub",
+    storyButtons: "story-buttons"
 };
 var elementHtmls = {
     addSubButtonHtml: "<button type='button' id='" + ids.storyToolbarSub + "' title='Create sub-story to this story'><img src='/content/images/icons/add.png'>Sub</button>",
@@ -15,8 +16,8 @@ var elementHtmls = {
 };
 var currentUrlSplitBySlash = window.location.pathname.split("/");
 
-$("#story-buttons").append(elementHtmls.addSubButtonHtml);
-$("#story-buttons").after(elementHtmls.extensionInfoAreaHtml);
+$("#" + ids.storyButtons).append(elementHtmls.addSubButtonHtml);
+$("#" + ids.storyButtons).after(elementHtmls.extensionInfoAreaHtml);
 
 var setAjaxDefaults = function () {
     jQuery.ajaxSetup({
