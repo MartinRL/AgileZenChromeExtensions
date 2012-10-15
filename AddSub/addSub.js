@@ -1,5 +1,4 @@
-﻿var API_KEY = "X-Zen-ApiKey";
-var options;
+﻿var options;
 var FOUND = 0;
 var NOT_FOUND = -1;
 var ALL = null;
@@ -15,7 +14,7 @@ $("#story-buttons").after(extensionInfoAreaHtml);
 var setAjaxDefaults = function () {
     jQuery.ajaxSetup({
         xhrFields: { withCredentials: true },
-        beforeSend: function (xhr) { xhr.setRequestHeader(API_KEY, options.api_key); },
+        beforeSend: function (xhr) { xhr.setRequestHeader("X-Zen-ApiKey", options.api_key); },
     });
 };
 
