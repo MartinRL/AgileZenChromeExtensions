@@ -1,17 +1,23 @@
 ﻿var options;
+var currentStory;
 var findResults = {
     found: 0,
     notFound: -1
 };
 var ALL = null;
-var ADD_SUB_EXTENSION_INFO_AREA_ID = "add-sub-extension-info-area";
-var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Create sub-story to this story'><img src='/content/images/icons/add.png'>Sub</button>";
-var extensionInfoAreaHtml = "<div id='" + ADD_SUB_EXTENSION_INFO_AREA_ID + "' class='order-title' style='display: none;'></div>";
-var currentStory;
+var ids = {
+    addSubExtensionInfoArea: "add-sub-extension-info-area",
+    storyToolbarSub: "story-toolbar-sub",
+    storyButtons: "story-buttons"
+};
+var elementHtmls = {
+    addSubButtonHtml: "<button type='button' id='" + ids.storyToolbarSub + "' title='Create sub-story to this story'><img src='/content/images/icons/add.png'>Sub</button>",
+    extensionInfoAreaHtml: "<div id='" + ids.addSubExtensionInfoArea + "' class='order-title' style='display: none;'></div>"
+};
 var currentUrlSplitBySlash = window.location.pathname.split("/");
 
-$("#story-buttons").append(addSubButtonHtml);
-$("#story-buttons").after(extensionInfoAreaHtml);
+$("#" + ids.storyButtons).append(elementHtmls.addSubButtonHtml);
+$("#" + ids.storyButtons).after(elementHtmls.extensionInfoAreaHtml);
 
 var setAjaxDefaults = function () {
     jQuery.ajaxSetup({
@@ -54,7 +60,7 @@ var setCurrentStory = function () {
 };
 
 var checkApiKey = function () {
-    var addSubExtensionInfoArea = $("#" + ADD_SUB_EXTENSION_INFO_AREA_ID);
+    var addSubExtensionInfoArea = $("#" + ids.addSubExtensionInfoArea);
     if (typeof options.api_key === "undefined" || options.api_key === "") {
         var optionsUrl = chrome.extension.getURL("options.html");
         addSubExtensionInfoArea.html("AgileZen API key is missing! Add yours on <a href='" + optionsUrl + "' target='_blank'>the options page.</a>");
@@ -112,7 +118,7 @@ setAjaxDefaults();
 
 setOptions(setCurrentStory);
 
-$("#story-toolbar-sub").click(createSubStory);
+$("#" + ids.storyToolbarSub).click(createSubStory);
 
 chrome.storage.onChanged.addListener(
     function (changes, namespace) {
