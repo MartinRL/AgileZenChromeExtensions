@@ -16,8 +16,11 @@ var elementHtmls = {
 };
 var currentUrlSplitBySlash = window.location.pathname.split("/");
 
-$("#" + ids.storyButtons).append(elementHtmls.addSubButtonHtml);
-$("#" + ids.storyButtons).after(elementHtmls.extensionInfoAreaHtml);
+var insertExtensionElements = function() {
+    $("#" + ids.storyButtons).append(elementHtmls.addSubButtonHtml);
+    $("#" + ids.storyButtons).after(elementHtmls.extensionInfoAreaHtml);
+    $("#" + ids.storyToolbarSub).click(createSubStory);
+};
 
 var setAjaxDefaults = function () {
     jQuery.ajaxSetup({
@@ -114,11 +117,11 @@ var createSubStory = function () {
     });
 };
 
+insertExtensionElements();
+
 setAjaxDefaults();
 
 setOptions(setCurrentStory);
-
-$("#" + ids.storyToolbarSub).click(createSubStory);
 
 chrome.storage.onChanged.addListener(
     function (changes, namespace) {
