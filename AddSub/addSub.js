@@ -133,6 +133,6 @@ setAjaxDefaults();
 setOptions(setCurrentStory);
 
 chrome.storage.onChanged.addListener(
-    function (changes, namespace) {
+    function () {
         setOptions(function() {});
     });
