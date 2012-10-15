@@ -126,13 +126,17 @@ var createSubStoryWorkflow = function () {
      .then(refreshPage);
 };
 
-insertExtensionElements();
+var initialize = function() {
+    insertExtensionElements();
 
-setAjaxDefaults();
+    setAjaxDefaults();
 
-setOptions(setCurrentStory);
+    setOptions(setCurrentStory);
 
-chrome.storage.onChanged.addListener(
-    function () {
-        setOptions(function() {});
+    chrome.storage.onChanged.addListener(function() {
+        setOptions(function() {
+        });
     });
+};
+
+initialize();
