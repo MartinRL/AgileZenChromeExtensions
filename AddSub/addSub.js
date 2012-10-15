@@ -91,7 +91,7 @@ var createSubStory = function () {
         data: JSON.stringify(subStory)
     }).then(function (subStory) {
         var subStoryInfoOfCurrentStoryDetails = "";
-        if (currentStory.details.indexOf(options.umbrella_details_label) == NOT_FOUND) {
+        if (currentStory.details.indexOf(options.umbrella_details_label) === NOT_FOUND) {
             subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br />" + options.umbrella_details_label + ":";
         }
         subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
