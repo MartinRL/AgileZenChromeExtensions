@@ -72,9 +72,27 @@ var checkApiKey = function () {
     return true;
 };
 
-var createSubStory = function () {
-    if (!checkApiKey()) return;
+var refreshPage = function () {
+    var FORCE_GET = true;
+    location.reload(FORCE_GET);
+};
 
+var updateCurrentStory = function (subStory) {
+    var subStoryInfoOfCurrentStoryDetails = "";
+    if (currentStory.details.indexOf(options.umbrella_details_label) === findResults.notFound) {
+        subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br />" + options.umbrella_details_label + ":";
+    }
+    subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
+    var updateCurrentStoryDetails = {
+        type: "PUT",
+        url: getBaseApiUrl() + "/" + getCurrentStoryNo(),
+        dataType: "json",
+        data: JSON.stringify({ details: currentStory.details + subStoryInfoOfCurrentStoryDetails })
+    };
+    $.ajax(updateCurrentStoryDetails);
+};
+
+var getSubStory = function() {
     var subStoryText = prompt("Please, state a sub-story name!", "Lorem ipsum");
     var tags = prompt("Please, state a the story tags (comma-separated).", "").split(",");
     $.each(tags, function (index, tag) { tag.trim(); });
@@ -85,32 +103,27 @@ var createSubStory = function () {
         phase: currentStory.phase.id,
         owner: currentStory.owner.id
     };
-    console.log(tags.indexOf(""));
     if (tags.indexOf("") !== findResults.found) {
         subStory.tags = tags;
     }
-    console.log(subStory);
 
-    $.ajax({
+    return subStory;
+};
+
+var createSubStory = function () {
+    if (!checkApiKey()) return;
+
+    var subStory = getSubStory();
+    var createSubStoryDetails = {
         type: "POST",
         url: getBaseApiUrl(),
         dataType: "json",
         data: JSON.stringify(subStory)
-    }).then(function (subStory) {
-        var subStoryInfoOfCurrentStoryDetails = "";
-        if (currentStory.details.indexOf(options.umbrella_details_label) === findResults.notFound) {
-            subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br />" + options.umbrella_details_label + ":";
-        }
-        subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
-        $.ajax({
-            type: "PUT",
-            url: getBaseApiUrl() + "/" + getCurrentStoryNo(),
-            dataType: "json",
-            data: JSON.stringify({ details: currentStory.details + subStoryInfoOfCurrentStoryDetails })
-        }).then(function() {
-            location.reload(true);
-        });
-    });
+    };
+
+    $.ajax(createSubStoryDetails)
+     .then(updateCurrentStory)
+     .then(refreshPage);
 };
 
 insertExtensionElements();
