@@ -1,6 +1,8 @@
 ﻿var options;
-var FOUND = 0;
-var NOT_FOUND = -1;
+var findResults = {
+    found: 0,
+    notFound: -1
+};
 var ALL = null;
 var ADD_SUB_EXTENSION_INFO_AREA_ID = "add-sub-extension-info-area";
 var addSubButtonHtml = "<button type='button' id='story-toolbar-sub' title='Create sub-story to this story'><img src='/content/images/icons/add.png'>Sub</button>";
@@ -79,7 +81,7 @@ var createSubStory = function () {
         owner: currentStory.owner.id
     };
     console.log(tags.indexOf(""));
-    if (tags.indexOf("") !== FOUND) {
+    if (tags.indexOf("") !== findResults.found) {
         subStory.tags = tags;
     }
     console.log(subStory);
@@ -91,7 +93,7 @@ var createSubStory = function () {
         data: JSON.stringify(subStory)
     }).then(function (subStory) {
         var subStoryInfoOfCurrentStoryDetails = "";
-        if (currentStory.details.indexOf(options.umbrella_details_label) === NOT_FOUND) {
+        if (currentStory.details.indexOf(options.umbrella_details_label) === findResults.notFound) {
             subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br />" + options.umbrella_details_label + ":";
         }
         subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
