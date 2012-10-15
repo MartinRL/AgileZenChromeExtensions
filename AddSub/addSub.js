@@ -19,7 +19,7 @@ var currentUrlSplitBySlash = window.location.pathname.split("/");
 var insertExtensionElements = function() {
     $("#" + ids.storyButtons).append(elementHtmls.addSubButtonHtml);
     $("#" + ids.storyButtons).after(elementHtmls.extensionInfoAreaHtml);
-    $("#" + ids.storyToolbarSub).click(createSubStory);
+    $("#" + ids.storyToolbarSub).click(createSubStoryWorkflow);
 };
 
 var setAjaxDefaults = function () {
@@ -110,7 +110,7 @@ var getSubStory = function() {
     return subStory;
 };
 
-var createSubStory = function () {
+var createSubStoryWorkflow = function () {
     if (!checkApiKey()) return;
 
     var subStory = getSubStory();
