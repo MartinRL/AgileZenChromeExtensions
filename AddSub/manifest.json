@@ -13,7 +13,7 @@
    ],
    "content_scripts": [{
        "matches": ["*://agilezen.com/project/*"],
-	   "css": ["addSub.css"],
+       "css": ["addSub.css"],
        "js": ["jquery-v1.8.2.min.js", "addSub.js"]
    }]
 }
