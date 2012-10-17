@@ -80,7 +80,7 @@ var refreshPage = function () {
 var updateCurrentStory = function (subStory) {
     var subStoryInfoOfCurrentStoryDetails = "";
     if (currentStory.details.indexOf(options.umbrella_details_label) === findResults.notFound) {
-        subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br />" + options.umbrella_details_label + ":";
+        subStoryInfoOfCurrentStoryDetails = "<br />" + subStoryInfoOfCurrentStoryDetails + "<br />" + options.umbrella_details_label + ":";
     }
     subStoryInfoOfCurrentStoryDetails = subStoryInfoOfCurrentStoryDetails + "<br /> - #" + subStory.id + " " + subStory.text;
     var updateCurrentStoryDetails = {
